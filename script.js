@@ -1,14 +1,14 @@
 /*
   script.js  (v3 = v2 aman-password + kirim nilai ke Google Sheet)
-  LKPD Interaktif Bahasa Jepang Bab 1 | A2 / JFT-Basic / LPK
+  LKPD Interaktif Bahasa Jepang Bab 3 | A2 / JFT-Basic / LPK
   Tambahan v3: tombol "Kirim Nilai ke Guru" via Apps Script (GET + no-cors).
 */
 
 const DATA = window.LKPD_DATA || { settings: {}, tabs: [] };
 const SETTINGS = DATA.settings || {};
 
-const SESSION_KEY = SETTINGS.sessionKey || "lkpd_bab2_session_v4";
-const STATE_KEY = SETTINGS.stateKey || "lkpd_bab2_state_v4";
+const SESSION_KEY = SETTINGS.sessionKey || "lkpd_bab3_session_v4";
+const STATE_KEY = SETTINGS.stateKey || "lkpd_bab3_state_v4";
 const TEACHER_PASSWORD_HASH = SETTINGS.teacherPasswordHash || "08539cbdb6a79e9777f9b0fc249078f1890a2492047011a0626eb1c416e7aada";
 const LISTENING_PLAY_COUNT = Number(SETTINGS.listeningPlayCount || 2);
 const SHOW_LISTENING_CONTROLS = SETTINGS.showListeningControls === true;
@@ -16,7 +16,7 @@ const SHOW_LISTENING_CONTROLS = SETTINGS.showListeningControls === true;
 /* ===== PENGIRIMAN NILAI (isi ini) ===== */
 const SHEET_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbydufvt6cBNIKrclA71S1Vwlq_SlKl52D1OmhWi0VWGKnKsrXcoe4iOWt5hufj1K4zk/exec";                 // <-- tempel URL Web App Apps Script
 const SEND_TOKEN = "LPKb1-7x9q-2026z";    // <-- sama dgn ACCESS_TOKEN di Code.gs
-const HASH_SALT = "lkpd_bab2::v1::";
+const HASH_SALT = "lkpd_bab3::v1::";
 /* ====================================== */
 
 let currentRole = null;
