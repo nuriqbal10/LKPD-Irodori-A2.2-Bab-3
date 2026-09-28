@@ -1,33 +1,42 @@
 /* =========================================
-   CLAYMORPHISM THEME v2 - LKPD BAHASA JEPANG
-   Vibe: Deep, Soft, Spacious, Elegant
+   CLAYMORPHISM THEME v3 - MAROON & TEAL
+   Vibe: Elegant, Deep Contrast, Spacious
+   Palette: 
+   - Primary: Deep Maroon (#7a1f2b)
+   - Accent: Vibrant Teal (#008080 / #20B2AA)
+   - Background: Soft Off-White/Greyish Blue (#f0f4f8)
    ========================================= */
 
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap');
 
 :root {
-  /* Palet Warna Tanah Liat Lebih Lembut */
-  --bg-body: #f0e9dd;        /* Krem Hangat Sedikit Gelap (Kontras Bagus) */
-  --surface-clay: #fffcf8;   /* Putih Susu Bersih (Objek Utama) */
+  /* --- WARNA DASAR --- */
+  --bg-body: #eef2f5;        /* Latar belakang abu-abu kebiruan sangat terang */
+  --surface-clay: #ffffff;   /* Putih bersih untuk kartu agar kontras tinggi */
   
-  /* Aksentuasi Organik */
-  --accent-primary: #d98c78; /* Terracotta / Cokelat Bata */
-  --accent-secondary: #8ca38e; /* Sage Green / Hijau Daun */
-  --accent-warning: #e6b981; /* Ochre / Kuning Tanah */
+  /* --- AKSEN UTAMA (MAROON) --- */
+  --primary-maroon: #7a1f2b; /* Merah Maroon Gelap */
+  --primary-maroon-light: #9e2a38; /* Variasi lebih terang untuk hover */
+  --primary-maroon-shadow: rgba(122, 31, 43, 0.25); /* Bayangan berwarna maroon transparan */
   
-  /* Tipografi */
-  --text-main: #4a423d;      /* Cokelat Tua Gelap */
-  --text-muted: #8c827a;     /* Abu-abu Kecoklatan */
+  /* --- AKSEN PENDAMPING (HIJAU TOSCA) --- */
+  --accent-teal: #008080;    /* Hijau Tosca Klasik */
+  --accent-teal-bright: #20B2AA; /* Light Sea Green (lebih cerah) */
+  --accent-teal-shadow: rgba(0, 128, 128, 0.2);
+
+  /* --- TEKSTUR BAYANGAN CLAY --- */
+  --shadow-light: rgba(255, 255, 255, 1);
+  --shadow-dark: rgba(163, 177, 198, 0.4); /* Abu-abu kebiruan gelap untuk bayangan netral */
   
-  /* Efek Cahaya & Bayangan (Kunci Kedalaman Clay) */
-  --shadow-light: rgba(255, 255, 255, 0.95);
-  --shadow-dark: rgba(166, 146, 132, 0.3); /* Sedikit lebih pekat untuk efek timbul */
+  /* --- TIPOGRAFI --- */
+  --text-main: #2c3e50;      /* Biru tua hampir hitam (lebih soft dari hitam pekat) */
+  --text-muted: #7f8c8d;     /* Abu-abu medium */
   
-  /* Radius Sudut Membulat Ekstra */
-  --radius-xl: 32px;
-  --radius-lg: 24px;
-  --radius-md: 16px;
-  --radius-sm: 12px;
+  /* --- UKURAN SPASIAL (ANTI MEPET) --- */
+  --radius-xl: 30px;
+  --radius-lg: 20px;
+  --radius-md: 15px;
+  --spacing-unit: 1.5rem; /* Digunakan untuk margin/padding dasar */
 }
 
 * {
@@ -37,78 +46,81 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Nunito', sans-serif;
+  font-family: 'Poppins', sans-serif; /* Font Latin modern & geometris */
   background-color: var(--bg-body);
   color: var(--text-main);
-  line-height: 1.7;
+  line-height: 1.6;
   min-height: 100vh;
-  /* Tekstur halus opsional */
-  background-image: radial-gradient(#e8dcc8 1px, transparent 1px);
-  background-size: 24px 24px;
+  /* Subtle pattern grid for texture */
+  background-image: radial-gradient(#dbe4eb 1px, transparent 1px);
+  background-size: 30px 30px;
 }
 
 .ja, h1, h2, h3, .tab-btn, button {
-  font-family: 'Zen Maru Gothic', sans-serif !important;
+  font-family: 'Zen Maru Gothic', 'Poppins', sans-serif !important;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 950px;
   margin: 0 auto;
-  padding: 40px 20px; /* Ruang napas samping & atas bawah */
+  padding: 40px 20px; /* Memberikan ruang napas di kiri kanan layar */
 }
 
-/* --- HEADER ELEGAN DENGAN RUANG --- */
+/* --- HEADER ELEGAN --- */
 header {
   background: var(--surface-clay);
   border-radius: var(--radius-xl);
-  padding: 40px;
+  padding: 40px 30px; /* Padding dalam diperbesar */
   margin-bottom: 40px;
   text-align: center;
-  box-shadow: 
-    inset 6px 6px 12px var(--shadow-light),
-    inset -6px -6px 12px var(--shadow-dark),
-    12px 12px 24px var(--shadow-dark);
   position: relative;
   overflow: hidden;
+  /* Efek Clay: Bayangan luar besar + Highlight dalam */
+  box-shadow: 
+    inset 5px 5px 10px var(--shadow-light),
+    inset -5px -5px 10px var(--shadow-dark),
+    10px 10px 20px var(--shadow-dark);
 }
 
 header::before {
   content: '';
   position: absolute;
-  top: 0; left: 0; right: 0; height: 8px;
-  background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
+  top: 0; left: 0; right: 0; height: 6px;
+  background: linear-gradient(90deg, var(--primary-maroon), var(--accent-teal));
 }
 
 header h1 {
-  margin: 0 0 15px;
+  margin: 0 0 10px;
   font-size: 2.2rem;
-  color: var(--text-main);
+  color: var(--primary-maroon); /* Judul langsung pakai warna utama */
   letter-spacing: -0.5px;
+  font-weight: 700;
 }
 
 header p {
   margin: 0;
   color: var(--text-muted);
-  font-weight: 600;
+  font-weight: 500;
   font-size: 1.1rem;
 }
 
 .badge {
   display: inline-block;
-  margin-top: 20px;
-  background: var(--accent-secondary);
+  margin-top: 15px;
+  background: var(--accent-teal);
   color: white;
   padding: 8px 20px;
   border-radius: 50px;
   font-size: 0.9rem;
-  box-shadow: 3px 3px 8px rgba(0,0,0,0.1);
+  font-weight: 600;
+  box-shadow: 0 4px 10px var(--accent-teal-shadow);
 }
 
-/* --- NAVIGASI TAB PILLS YANG MENGEMBUNG --- */
+/* --- NAVIGASI TAB PILLS --- */
 .tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 15px;
+  gap: 15px; /* Jarak antar tab diperlebar */
   justify-content: center;
   margin-bottom: 40px;
 }
@@ -116,45 +128,46 @@ header p {
 .tab-btn {
   background: var(--surface-clay);
   border: none;
-  padding: 14px 28px;
+  padding: 12px 25px; /* Padding horizontal cukup lebar */
   border-radius: 50px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition: all 0.3s ease;
+  /* Efek Clay Dasar */
   box-shadow: 
     5px 5px 10px var(--shadow-dark),
     -3px -3px 8px var(--shadow-light);
 }
 
 .tab-btn:hover {
-  transform: translateY(-3px);
-  color: var(--accent-primary);
+  transform: translateY(-2px);
+  color: var(--primary-maroon);
   box-shadow: 
-    6px 6px 12px var(--shadow-dark),
-    -4px -4px 10px var(--shadow-light);
+    6px 6px 12px var(--primary-maroon-shadow),
+    -3px -3px 8px var(--shadow-light);
 }
 
 .tab-btn.active {
-  background: var(--accent-primary);
+  background: var(--primary-maroon);
   color: white;
   box-shadow: 
-    inset 2px 2px 5px rgba(0,0,0,0.15),
-    5px 5px 15px rgba(217, 140, 120, 0.5);
+    inset 2px 2px 5px rgba(0,0,0,0.2),
+    5px 5px 15px var(--primary-maroon-shadow);
   transform: scale(1.05);
 }
 
-/* --- PANEL KONTEN CARD CLAY BESAR --- */
+/* --- PANEL KONTEN CARD CLAY --- */
 .tab-panel {
   display: none;
   background: var(--surface-clay);
   border-radius: var(--radius-xl);
-  padding: 45px;
+  padding: 40px; /* PADDING BESAR: Ini kunci anti mepet */
   margin-bottom: 40px;
-  animation: fadeIn 0.5s ease-out;
+  animation: fadeIn 0.4s ease-out;
   box-shadow: 
     15px 15px 30px var(--shadow-dark),
-    -8px -8px 20px var(--shadow-light);
+    -10px -10px 20px var(--shadow-light);
 }
 
 .tab-panel.active {
@@ -168,27 +181,28 @@ header p {
 
 .tab-panel h2 {
   margin-top: 0;
-  color: var(--accent-primary);
+  color: var(--primary-maroon);
   font-size: 1.8rem;
-  border-bottom: 2px dashed #e0d5c1;
+  border-bottom: 2px solid #eee;
   padding-bottom: 20px;
-  margin-bottom: 35px;
+  margin-bottom: 30px;
 }
 
 .tab-panel h3 {
-  color: var(--text-main);
-  margin-top: 35px;
-  margin-bottom: 20px;
+  color: var(--accent-teal);
+  margin-top: 30px;
+  margin-bottom: 15px;
   font-size: 1.3rem;
+  font-weight: 700;
 }
 
-/* --- KARTU SOAL QUESTION CARDS BERTUMPUK --- */
+/* --- KARTU SOAL QUESTION CARDS --- */
 .question-card {
-  background: #fbf8f3; 
+  background: #fafafa; /* Sedikit off-white agar terlihat bertumpuk dengan panel putih */
   border-radius: var(--radius-lg);
-  padding: 25px;
-  margin-bottom: 25px;
-  border-left: 6px solid var(--accent-secondary);
+  padding: 25px; /* Padding internal kartu */
+  margin-bottom: 25px; /* Jarak antar soal */
+  border-left: 6px solid var(--accent-teal); /* Garis aksen kiri */
   box-shadow: 
     4px 4px 8px var(--shadow-dark),
     -2px -2px 5px var(--shadow-light);
@@ -197,63 +211,69 @@ header p {
 
 .question-card:hover {
   transform: translateX(5px);
+  box-shadow: 
+    6px 6px 12px var(--shadow-dark),
+    -2px -2px 5px var(--shadow-light);
 }
 
 .passage {
-  background: #f0ebe3;
+  background: #f0f4f8; /* Warna latar teks bacaan */
   padding: 20px;
   border-radius: var(--radius-md);
   margin-bottom: 20px;
+  color: #34495e;
+  border: 1px solid #e1e8ed;
   font-style: italic;
-  color: #5d544d;
-  border: 1px solid #e6dfd3;
 }
 
 .options label {
   display: flex;
   align-items: center;
-  padding: 15px 20px;
-  margin: 12px 0;
+  padding: 15px 20px; /* Tinggi opsi jawaban */
+  margin: 10px 0;
   background: white;
   border-radius: var(--radius-md);
   cursor: pointer;
   transition: all 0.2s;
-  box-shadow: 3px 3px 6px rgba(0,0,0,0.05);
+  border: 1px solid transparent;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.03);
 }
 
 .options label:hover {
-  background: #fff5f2;
-  box-shadow: 4px 4px 8px rgba(217, 140, 120, 0.2);
+  background: #fff5f5; /* Hover merah muda sangat tipis */
+  border-color: var(--primary-maroon-light);
+  box-shadow: 3px 3px 8px var(--primary-maroon-shadow);
 }
 
 input[type="radio"] {
   appearance: none;
   width: 22px;
   height: 22px;
-  border: 2px solid #ccc;
+  border: 2px solid #cbd5e0;
   border-radius: 50%;
   margin-right: 15px;
   outline: none;
   cursor: pointer;
   position: relative;
+  transition: all 0.2s;
 }
 
 input[type="radio"]:checked {
-  border-color: var(--accent-primary);
-  background: var(--accent-primary);
+  border-color: var(--primary-maroon);
+  background: var(--primary-maroon);
   box-shadow: inset 0 0 0 4px white;
 }
 
 /* --- INPUT & TEXTAREA MEDAN TANAH LIAT --- */
 input[type="text"], input[type="date"], select, textarea {
   width: 100%;
-  padding: 18px;
+  padding: 16px 20px; /* Input field lebih tinggi & lega */
   border: none;
   border-radius: var(--radius-md);
-  background: #f7f3ee;
+  background: #f7f9fb;
   color: var(--text-main);
   font-family: inherit;
-  font-size: 1.05rem;
+  font-size: 1rem;
   box-shadow: 
     inset 4px 4px 8px var(--shadow-dark),
     inset -3px -3px 6px var(--shadow-light);
@@ -265,49 +285,58 @@ input:focus, textarea:focus, select:focus {
   background: white;
   box-shadow: 
     inset 2px 2px 4px rgba(0,0,0,0.05),
-    0 0 0 4px rgba(217, 140, 120, 0.2);
+    0 0 0 3px rgba(0, 128, 128, 0.2); /* Glow hijau tosca saat fokus */
 }
 
 textarea {
   resize: vertical;
-  min-height: 100px;
+  min-height: 120px;
 }
 
 /* --- TOMBOL AKSI BUTTONS --- */
 button:not(.tab-btn):not(.play-btn) {
-  background: var(--accent-primary);
+  background: var(--primary-maroon);
   color: white;
   border: none;
   padding: 14px 32px;
   border-radius: 50px;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
   box-shadow: 
-    0 6px 15px rgba(217, 140, 120, 0.4),
-    inset 0 2px 3px rgba(255,255,255,0.4);
+    0 6px 15px var(--primary-maroon-shadow),
+    inset 0 2px 3px rgba(255,255,255,0.2);
 }
 
 button:hover:not(.tab-btn) {
+  background: var(--primary-maroon-light);
   transform: translateY(-3px);
   box-shadow: 
-    0 8px 20px rgba(217, 140, 120, 0.5),
-    inset 0 2px 3px rgba(255,255,255,0.4);
+    0 8px 20px var(--primary-maroon-shadow),
+    inset 0 2px 3px rgba(255,255,255,0.2);
 }
 
 button:active:not(.tab-btn) {
-  transform: translateY(2px);
+  transform: translateY(1px);
   box-shadow: 
-    0 2px 5px rgba(217, 140, 120, 0.4),
+    0 2px 5px var(--primary-maroon-shadow),
     inset 0 1px 2px rgba(0,0,0,0.1);
 }
 
-.secondary-btn { background: var(--accent-secondary); box-shadow: 0 6px 15px rgba(140, 163, 142, 0.4); }
-.danger-btn { background: #c97b7b; box-shadow: 0 6px 15px rgba(201, 123, 123, 0.4); }
+.secondary-btn { 
+  background: var(--accent-teal); 
+  box-shadow: 0 6px 15px var(--accent-teal-shadow); 
+}
+.secondary-btn:hover { background: var(--accent-teal-bright); }
+
+.danger-btn { 
+  background: #c0392b; 
+  box-shadow: 0 6px 15px rgba(192, 57, 43, 0.3); 
+}
 
 .play-btn {
-  background: var(--accent-secondary);
+  background: var(--accent-teal);
   color: white;
   border: none;
   padding: 12px 24px;
@@ -315,13 +344,13 @@ button:active:not(.tab-btn) {
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 20px;
-  box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 4px 4px 8px var(--accent-teal-shadow);
   display: inline-flex;
   align-items: center;
   gap: 10px;
 }
 .play-btn::before { content: '▶'; font-size: 0.9em; }
-.play-btn:hover { background: #7a947c; transform: scale(1.03); }
+.play-btn:hover { background: var(--accent-teal-bright); transform: scale(1.03); }
 
 /* --- NOTIFICATION BOXES --- */
 .note, .warning {
@@ -332,16 +361,16 @@ button:active:not(.tab-btn) {
 }
 
 .note {
-  background: #eef7f0;
-  border-left: 6px solid var(--accent-secondary);
-  color: #4a5d4c;
+  background: #e6fffa; /* Hijau tosca sangat muda */
+  border-left: 6px solid var(--accent-teal);
+  color: #234e52;
   box-shadow: 3px 3px 8px rgba(0,0,0,0.05);
 }
 
 .warning {
-  background: #fdf6ec;
-  border-left: 6px solid var(--accent-warning);
-  color: #8a6d3b;
+  background: #fff5f5; /* Merah maroon sangat muda */
+  border-left: 6px solid var(--primary-maroon);
+  color: #742a2a;
   box-shadow: 3px 3px 8px rgba(0,0,0,0.05);
 }
 
@@ -361,6 +390,7 @@ button:active:not(.tab-btn) {
   box-shadow: 
     6px 6px 12px var(--shadow-dark),
     -4px -4px 8px var(--shadow-light);
+  border-top: 4px solid var(--accent-teal);
 }
 
 .result-item strong {
@@ -382,9 +412,9 @@ button:active:not(.tab-btn) {
   box-shadow: inset 3px 3px 6px rgba(0,0,0,0.1);
 }
 
-.status-pass { background: #d4edda; color: #155724; }
-.status-fail { background: #f8d7da; color: #721c24; }
-.status-pending { background: #fff3cd; color: #856404; }
+.status-pass { background: #d4edda; color: #155724; border: 2px solid #c3e6cb; }
+.status-fail { background: #f8d7da; color: #721c24; border: 2px solid #f5c6cb; }
+.status-pending { background: #fff3cd; color: #856404; border: 2px solid #ffeeba; }
 
 /* --- TABLE STYLING --- */
 table {
@@ -399,12 +429,12 @@ table {
 }
 
 th {
-  background: #f7f3ee;
-  color: var(--text-main);
+  background: var(--primary-maroon);
+  color: white;
   font-weight: 700;
   padding: 18px;
   text-align: left;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid #5a1720;
 }
 
 td {
@@ -414,7 +444,7 @@ td {
 }
 
 tr:last-child td { border-bottom: none; }
-tr:hover td { background: #fafafa; }
+tr:hover td { background: #fdf2f2; /* Hover merah muda tipis */ }
 
 /* --- DETAILS/SUMMARY --- */
 details {
@@ -428,7 +458,7 @@ details {
 
 summary {
   font-weight: 700;
-  color: var(--accent-primary);
+  color: var(--primary-maroon);
   cursor: pointer;
   list-style: none;
   display: flex;
@@ -437,16 +467,17 @@ summary {
 }
 
 summary::-webkit-details-marker { display: none; }
-summary::after { content: '+'; font-size: 1.4rem; color: var(--text-muted); }
+summary::after { content: '+'; font-size: 1.4rem; color: var(--accent-teal); }
 details[open] summary::after { content: '-'; }
 
 /* --- RESPONSIVE --- */
 @media (max-width: 768px) {
   .container { padding: 20px 15px; }
   header { padding: 30px 20px; }
-  .tab-panel { padding: 30px 20px; }
+  .tab-panel { padding: 25px 20px; } /* Tetap lega di mobile */
   .tabs { gap: 10px; }
-  .tab-btn { padding: 10px 20px; font-size: 0.9rem; }
+  .tab-btn { padding: 10px 18px; font-size: 0.9rem; }
+  .question-card { padding: 20px; }
 }
 
 /* --- PRINT MODE OPTIMIZATION --- */
@@ -459,6 +490,7 @@ details[open] summary::after { content: '-'; }
     border: 1px solid #ddd; 
     page-break-inside: avoid;
     margin-bottom: 20px;
+    padding: 20px;
   }
   .question-card { box-shadow: none; border: 1px solid #eee; }
   a[href]:after { content: "" !important; }
