@@ -247,41 +247,89 @@ function showResultTab(){ const rt=findTabByType("result"); if(!rt)return; const
 /* ================= KIRIM NILAI ================= */
 function setKirimMsg(kind){ const m=document.getElementById("kirimMsg"); if(!m)return; if(kind==="ok"){m.style.color="#2b8a3e";m.textContent="Terkirim. Nilai Anda masuk ke rekap guru (mungkin butuh ~1 menit).";} else if(kind==="err"){m.style.color="#c92a2a";m.textContent="Gagal mengirim (jaringan/URL?). Coba lagi atau hubungi guru."; } else {m.textContent="";} }
 
-function kirimKeGuru(){
-  if(!SHEET_WEB_APP_URL){ alert("https://script.google.com/macros/s/AKfycbydBVyG6aZOK5BqTHFKpc1tM0I9OfSyAoDY1qXVCMuJli0ie6FqIHw6l6McmCnpxVxo/exec"); return; }
-  if(getSession().role!=="student"){ alert("Tombol ini untuk peserta. Guru tidak perlu mengirim nilai."); return; }
-  if(!lastScores){ alert('Klik "Hitung Nilai" dulu sebelum kirim.'); return; }
-  const ssn=getSession();
-  const payload={ 
-    token:SEND_TOKEN,  
-    babId: SETTINGS.babId ||"", 
-    nama:ssn.name||"", 
-    kelas:ssn.kelas||"", 
-    tanggal:ssn.date||"",
-    moji:lastScores.moji.correct, 
-    kaiwa:lastScores.kaiwa.correct, 
-    choikai:lastScores.choikai.correct, 
-    dokkai:lastScores.dokkai.correct,
-    rawJFT:lastScores.rawJFT, 
-    totalJFT:lastScores.totalJFT, 
-    ujianBabNilai:round1(lastScores.ujianBabNilai),
-    kanjiBenar:lastScores.kanji.correct, 
-    kanjiNilai:round1(lastScores.kanjiNilai),
-    kosakataBenar:lastScores.kosakataCorrect, 
-    kosakataNilai:round1(lastScores.kosakataNilai),
-    trSum:lastScores.trSum, 
-    trMax:lastScores.trMax, 
-    terjemahanNilai:round1(lastScores.terjemahanNilai),
-    finalNilai:round1(lastScores.finalNilai), 
-    jftLikeScale:round1(lastScores.jftLikeScale),
-    status:lastScores.statusText, 
-    weaknesses:lastWeaknesses.join(", ") };
-  const btn=document.getElementById("btnKirim"); if(btn){btn.disabled=true;btn.textContent="Mengirim…";} setKirimMsg("");
-  const qs=new URLSearchParams(payload).toString();
-  fetch(SHEET_WEB_APP_URL+"?"+qs,{method:"GET",mode:"no-cors"})
-    .then(function(){ setKirimMsg("ok"); })
-    .catch(function(){ setKirimMsg("err"); })
-    .finally(function(){ if(btn){btn.disabled=false;btn.textContent="Kirim Nilai ke Guru";} });
+function kirimKeGuru() {
+  if (!SHEET_WEB_APP_URL) {
+    alert("URL pengiriman belum di-set. Guru: tempel URL Web App Apps Script ke SHEET_WEB_APP_URL di script.js, lalu push.");
+    return;
+  }
+  if (!lastScores) {
+    alert('Klik "Hitung Nilai" dulu sebelum kirim.');
+    return;
+  }
+
+  // === AMBIL SEMUA TEKS JAWABAN DARI FORM ===
+  const jawabanKosakata = {};
+  const jawabanTerjemahan = {};
+  
+  // Ambil dari tab Kosakata
+  const kosakataTab = findTab("kosakata");
+  if (kosakataTab && kosakataTab.items) {
+    kosakataTab.items.forEach(function(item) {
+      const el = document.getElementById(item.id);
+      if (el) jawabanKosakata[item.number] = el.value.trim();
+    });
+  }
+  
+  // Ambil dari tab Terjemahan
+  const terjemahanTab = findTab("terjemahan");
+  if (terjemahanTab && terjemahanTab.items) {
+    terjemahanTab.items.forEach(function(item) {
+      const el = document.getElementById(item.id);
+      if (el) jawabanTerjemahan[item.number] = el.value.trim();
+    });
+  }
+
+  const ssn = getSession();
+  
+  // Siapkan Payload Lengkap
+  const payload = { 
+    token: SEND_TOKEN, 
+    babId: SETTINGS.babId || "", 
+    nama: ssn.name || "", 
+    kelas: ssn.kelas || "", 
+    tanggal: ssn.date || "",
+    moji: lastScores.moji.correct, 
+    kaiwa: lastScores.kaiwa.correct, 
+    choikai: lastScores.choikai.correct, 
+    dokkai: lastScores.dokkai.correct,
+    rawJFT: lastScores.rawJFT, 
+    totalJFT: lastScores.totalJFT, 
+    ujianBabNilai: round1(lastScores.ujianBabNilai),
+    kanjiBenar: lastScores.kanji.correct, 
+    kanjiNilai: round1(lastScores.kanjiNilai),
+    kosakataBenar: lastScores.kosakataCorrect, 
+    kosakataNilai: round1(lastScores.kosakataNilai),
+    trSum: lastScores.trSum, 
+    trMax: lastScores.trMax, 
+    terjemahanNilai: round1(lastScores.terjemahanNilai),
+    finalNilai: round1(lastScores.finalNilai), 
+    jftLikeScale: round1(lastScores.jftLikeScale),
+    status: lastScores.statusText, 
+    weaknesses: lastWeaknesses.join(", "),
+    // === TAMBAHKAN DATA TEKS KE PAYLOAD ===
+    jawabanKosakata: jawabanKosakata,
+    jawabanTerjemahan: jawabanTerjemahan
+  };
+
+  const btn = document.getElementById("btnKirim");
+  if (btn) { btn.disabled = true; btn.textContent = "Mengirim…"; }
+  setKirimMsg("");
+
+  // Konstruksi URL Query String
+  const baseUrl = SHEET_WEB_APP_URL.split('?')[0];
+  const queryString = new URLSearchParams(payload).toString();
+  const fullUrl = `${baseUrl}?${queryString}`;
+
+  fetch(fullUrl, { method: "GET", mode: "no-cors" })
+    .then(function () {
+      setKirimMsg("ok");
+    })
+    .catch(function () {
+      setKirimMsg("err");
+    })
+    .finally(function () {
+      if (btn) { btn.disabled = false; btn.textContent = "Kirim Nilai ke Guru"; }
+    });
 }
 
 /* ================= AUDIO ================= */
