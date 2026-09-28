@@ -83,23 +83,70 @@ function renderTabs(){
 }
 function openTab(tabId,btn){ document.querySelectorAll(".tab-panel").forEach(el=>el.classList.remove("active")); document.querySelectorAll(".tab-btn").forEach(el=>el.classList.remove("active")); const p=document.getElementById("panel-"+tabId); if(p)p.classList.add("active"); if(btn)btn.classList.add("active"); }
 
-function renderItem(item){
-  let html='<div class="question-card">';
-  if(item.passage) html+='<div class="passage ja">'+item.passage+'</div>';
-  if(item.type==="listening"){
-    const times=Number(item.playCount||LISTENING_PLAY_COUNT||2), show=SHOW_LISTENING_CONTROLS;
-    html+='<button class="play-btn no-print" data-times="'+times+'" onclick="playItemAudio(\''+item.id+'\', this)">Putar Audio ('+times+'x)</button>';
-    if(item.audioUrl) html+='<audio id="audio-'+item.id+'" preload="auto" '+(show?"controls ":"")+'style="'+(show?"width:100%;margin:10px 0;":"display:none;")+'" src="'+safeAudioSrc(item.audioUrl)+'"></audio>';
+function renderItem(item) {
+  // DETEKSI ROLE SAAT INI
+  const isTeacher = currentRole === "teacher";
+
+  let html = '<div class="question-card">';
+  
+  if (item.passage) html += '<div class="passage ja">' + item.passage + '</div>';
+
+  if (item.type === "listening") {
+    const times = Number(item.playCount || LISTENING_PLAY_COUNT || 2);
+    const show = SHOW_LISTENING_CONTROLS;
+    
+    html += '<button class="play-btn no-print" data-times="' + times + '" onclick="playItemAudio(\'' + item.id + '\', this)">Putar Audio (' + times + 'x)</button>';
+    
+    if (item.audioUrl) {
+      html += '<audio id="audio-' + item.id + '" preload="auto" ' + 
+              (show ? "controls " : "") + 
+              'style="' + (show ? "width:100%;margin:10px 0;" : "display:none;") + 
+              '" src="' + safeAudioSrc(item.audioUrl) + '"></audio>';
+    }
   }
-  html+='<p class="prompt ja"><strong>'+escapeHtml(item.number||"")+'</strong> '+(item.prompt||"")+'</p>';
-  if(item.type==="mcq"||item.type==="listening"){ html+='<div class="options ja">'; (item.options||[]).forEach(function(opt,idx){ html+='<label><input type="radio" name="'+item.id+'" value="'+(idx+1)+'" /> '+opt+'</label>'; }); html+='</div>'; }
-  if(item.type==="vocab") html+='<input type="text" id="'+item.id+'" class="ja" placeholder="答え" />';
-  if(item.type==="translation"){
-    html+='<textarea id="'+item.id+'" rows="2" class="ja" placeholder="答えを書いてください"></textarea>';
-    html+='<label class="teacher-only">Skor guru (0–4)<select id="'+item.id+'Score"><option value="">--</option><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>';
-    html+='<details class="teacher-only"><summary>Contoh Jawaban</summary><p class="ja">'+(item.sample||"")+'</p></details>';
+
+  html += '<p class="prompt ja"><strong>' + escapeHtml(item.number || "") + '</strong> ' + (item.prompt || "") + '</p>';
+
+  // SOAL PILIHAN GANDA / LISTENING MCQ
+  if (item.type === "mcq" || item.type === "listening") {
+    html += '<div class="options ja">';
+    (item.options || []).forEach(function(opt, idx) {
+      html += '<label><input type="radio" name="' + item.id + '" value="' + (idx + 1) + '" /> ' + opt + '</label>';
+    });
+    html += '</div>';
   }
-  html+='</div>'; return html;
+
+  // SOAL KOSAKATA (ISIAN SINGKAT)
+  if (item.type === "vocab") {
+    html += '<input type="text" id="' + item.id + '" class="ja" placeholder="答え" />';
+  }
+
+  // SOAL TERJEMAHAN (PARAGRAF)
+  if (item.type === "translation") {
+    // 1. Kotak Isian Siswa (Selalu Muncul)
+    html += '<textarea id="' + item.id + '" rows="3" class="ja" placeholder="答えを書いてください"></textarea>';
+
+    // 2. Input Skor & Contoh Jawaban (HANYA MUNCUL JIKA GURU)
+    if (isTeacher) {
+      html += '<label style="display:block;margin-top:15px;font-weight:bold;color:#7a1f2b;">Skor guru (0–4)' +
+              '<select id="' + item.id + 'Score" style="margin-left:10px;width:auto;padding:5px;">' +
+              '<option value="">--</option>' +
+              '<option value="0">0</option>' +
+              '<option value="1">1</option>' +
+              '<option value="2">2</option>' +
+              '<option value="3">3</option>' +
+              '<option value="4">4</option>' +
+              '</select></label>';
+
+      html += '<details style="margin-top:10px;background:#fff5f5;padding:10px;border-radius:8px;border:1px solid #eee;">' +
+              '<summary style="cursor:pointer;font-weight:bold;color:#d98c78;"> Contoh Jawaban (Mode Guru)</summary>' +
+              '<p class="ja" style="margin-top:10px;color:#4a423d;">' + (item.sample || "") + '</p>' +
+              '</details>';
+    }
+  }
+
+  html += '</div>';
+  return html;
 }
 function renderBankItem(item){ const src=item.audioUrl||("audio/"+item.file); const title=item.title||item.track||""; return '<div class="question-card"><p class="ja"><strong>['+escapeHtml(item.track||"")+']</strong> '+escapeHtml(title)+'</p><audio controls preload="none" style="width:100%" src="'+safeAudioSrc(src)+'"></audio></div>'; }
 

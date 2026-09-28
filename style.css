@@ -495,3 +495,10 @@ details[open] summary::after { content: '-'; }
   .question-card { box-shadow: none; border: 1px solid #eee; }
   a[href]:after { content: "" !important; }
 }
+
+/* PENGAMANAN MODE PESERTA */
+body:not(.teacher) .teacher-only,
+body:not(.teacher) select[id$="Score"],       /* Sembunyikan dropdown skor */
+body:not(.teacher) details.summary-guru {     /* Sembunyikan blok detail guru */
+  display: none !important;
+}
